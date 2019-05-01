@@ -1,0 +1,10 @@
+docker_builder:
+  only_if: $CIRRUS_BRANCH == 'master' || $CIRRUS_BRANCH == 'beta' || $CIRRUS_BRANCH == 'stable'
+
+  env:
+    DOCKER_USERNAME: ENCRYPTED[b593680275d510b2b44d7a682f21bf92ebd466e93515ada04ed228660cc3be9e538905fe5030914d9fb00c1b99b76506]
+    DOCKER_PASSWORD: ENCRYPTED[18fa4a6d01d2d5d6ee834a8238585111224e68b7256495c33f1347132a95e8f37d4e240272acbf8c144fbd915c30413b]
+
+  build_script: docker build -t madeeasytvm/mathman:$CIRRUS_BRANCH .
+  login_script: docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+  push_script: docker push madeeasytvm/mathman:$CIRRUS_BRANCH
